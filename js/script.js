@@ -4,3 +4,4 @@ function flip(card) {
     else
         card.classList.add('card--open');
 }
+

@@ -19,7 +19,7 @@
 }
 
 /* page */
-.page {
+.body {
     margin: 0;
     background: var(--color-page-bg);
     color: var(--color-text);
