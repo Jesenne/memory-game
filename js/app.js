@@ -2,6 +2,8 @@
 const board = document.getElementById('board');
 const movesElem = document.getElementById('moves');
 const pairsElem = document.getElementById('pairs');
+const modalScore = document.getElementById('modalScore');
+const modalWin = document.getElementById('modalWin');
 let first, lock, moves, pairs;
 
 function startGame() {
@@ -22,7 +24,7 @@ function flip(card) {
         card.classList.replace('card--open', 'card--done');
         first = null;
         pairsElem.textContent = ++pairs;
-        if (pairs === 8) setTimeout(alert, 600, "win");
+        if (pairs === 8) setTimeout(win, 600);
     } else {
         lock = true;
         setTimeout(() => {
@@ -34,8 +36,18 @@ function flip(card) {
     }
 }
 
+function win() {
+    document.getElementById('result').textContent = `Все пары найдены за ${moves} ходов`;
+    modalWin.returnValue = '';
+    setTimeout(() => modalWin.showModal(), 600);
+}
 
-//document.getElementById('high-score').onclick = ;
-document.getElementById('new-game').onclick = startGame;
+function highScore() {
+    modalScore.showModal();
+}
+
+modalWin.addEventListener('close', () => { if (modalWin.returnValue === 'new') startGame() });
+document.getElementById('high-score').addEventListener('click', highScore);
+document.getElementById('new-game').addEventListener('click', startGame);
 
 startGame();

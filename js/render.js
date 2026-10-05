@@ -81,6 +81,27 @@ function createBoard() {
     return el('main', { class: 'board', id: 'board' });
 }
 
+function createModalScore() {
+    return el('dialog', { class: 'modal', id: 'modalScore' }, [
+        el('h2', { class: 'modal__title' }, ['Таблица лидеров']),
+        el('ol', { class: 'modal__list', id: 'list' }),
+        el('form', { method: 'dialog' }, [
+            el('button', { class: 'button' }, ['Закрыть'])
+        ])
+    ]);
+}
+
+function createModalWin() {
+    return el('dialog', { class: 'modal', id: 'modalWin' }, [
+        el('h2', { class: 'modal__title' }, ['Победа!']),
+        el('p', { class: 'modal__text', id: 'result' }),
+        el('form', { class: 'modal__actions', method: 'dialog' }, [
+            el('button', { class: 'button button--primary', value: 'new' }, ['Новая игра']),
+            el('button', { class: 'button', value: 'close' }, ['Закрыть'])
+        ])
+    ]);
+}
+
 async function renderBody() {
     const response = await fetch('js/data.json');
     paintings = await response.json();
@@ -89,6 +110,8 @@ async function renderBody() {
         createHeader(),
         createStats(),
         createBoard(),
+        createModalScore(),
+        createModalWin(),
     );
     // игровой скрипт подключаем после отрисовки, чтобы он нашёл элементы
     document.body.append(el('script', { src: 'js/app.js' }));
