@@ -4,14 +4,40 @@ const movesElem = document.getElementById('moves');
 const pairsElem = document.getElementById('pairs');
 const modalScore = document.getElementById('modalScore');
 const modalWin = document.getElementById('modalWin');
-let first, lock, moves, pairs;
+let first = null, lock = false, moves = 0, pairs = 0;
 
-function startGame() {
+function shuffleAnimation() {
+    const board = document.getElementById('board');
+
+    [...board.children].forEach((card) => {
+        card.style.transition = 'none';
+        card.style.transform = 'scale(.3)';
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+    });
+
+    void board.offsetWidth;
+
+    [...board.children].forEach((card, i) => {
+        card.style.transition = `transform .4s cubic-bezier(.2,.8,.3,1.2) ${i * 25}ms, opacity .3s ease-out ${i * 25}ms`;
+        card.style.transform = 'scale(1)';
+        card.style.opacity = '1';
+        setTimeout(() => {
+            card.style.transition = '';
+            card.style.transform = '';
+            card.style.opacity = '';
+            card.style.pointerEvents = '';
+        }, 400 + i * 25);
+    });
+}
+
+function newGame() {
     moves = 0; pairs = 0; first = null; lock = false;
     movesElem.textContent = 0;
     pairsElem.textContent = 0;
 
     dealCards();
+    shuffleAnimation();
 }
 
 function flip(card) {
@@ -87,10 +113,8 @@ function renderScore() {
     }
 }
 
-modalWin.addEventListener('close', () => { if (modalWin.returnValue === 'new') startGame() });
+modalWin.addEventListener('close', () => { if (modalWin.returnValue === 'new') newGame() });
 modalWin.addEventListener('close', () => { document.body.style.overflow = ''; });
 modalScore.addEventListener('close', () => { document.body.style.overflow = ''; });
 document.getElementById('high-score').addEventListener('click', highScore);
-document.getElementById('new-game').addEventListener('click', startGame);
-
-startGame();
+document.getElementById('new-game').addEventListener('click', newGame);
