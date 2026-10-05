@@ -114,6 +114,7 @@ async function renderBody() {
         createModalScore(),
         createModalWin(),
     );
+    dealCards();
     // игровой скрипт подключаем после отрисовки, чтобы он нашёл элементы
     document.body.append(el('script', { src: 'js/app.js' }));
 }
