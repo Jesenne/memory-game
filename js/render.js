@@ -47,9 +47,15 @@ function createCard(painting) {
     ]);
 }
 
+function createCardSet() {
+    return [...paintings, ...paintings]
+        .sort(() => Math.random() - 0.5)
+        .map(createCard)
+}
+
 function createHeader() {
     const newGame = el('button', { class: 'button button--primary', id: 'new-game' }, ['Новая игра']);
-    const highScore = el('button', { class: 'button', id: 'hight-score' }, ['Таблица лидеров']);
+    const highScore = el('button', { class: 'button', id: 'high-score' }, ['Таблица лидеров']);
 
     return el('header', { class: 'header' }, [
         el('h1', { class: 'header__title' }, ['Мемо картины']),
@@ -72,9 +78,7 @@ function createStats() {
 }
 
 function createBoard() {
-    return el('main', { class: 'board', id: 'board' }, [...paintings, ...paintings]
-        .sort(() => Math.random() - 0.5)
-        .map(createCard));
+    return el('main', { class: 'board', id: 'board' }, createCardSet());
 }
 
 async function renderBody() {
@@ -86,10 +90,12 @@ async function renderBody() {
         createStats(),
         createBoard(),
     );
+    // игровой скрипт подключаем после отрисовки, чтобы он нашёл элементы
+    document.body.append(el('script', { src: 'js/app.js' }));
 }
 
 function redrawBoard() {
-    document.getElementById('board').replaceChildren(...createCards());
+    document.getElementById('board').replaceChildren(...createCardSet());
 }
 
 renderBody();
