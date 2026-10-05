@@ -84,6 +84,7 @@ function createBoard() {
 function createModalScore() {
     return el('dialog', { class: 'modal', id: 'modalScore', closedby: "any" }, [
         el('h2', { class: 'modal__title' }, ['Таблица лидеров']),
+        el('p', { class: 'modal__text', id: 'score-message' }),
         el('ol', { class: 'modal__list', id: 'list' }),
         el('form', { method: 'dialog' }, [
             el('button', { class: 'button' }, ['Закрыть'])

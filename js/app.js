@@ -37,13 +37,52 @@ function flip(card) {
 }
 
 function win() {
+    saveScore();
     document.getElementById('result').textContent = `Все пары найдены за ${moves} ходов`;
     modalWin.returnValue = '';
-    setTimeout(() => modalWin.showModal(), 600);
+    modalWin.showModal();
 }
 
 function highScore() {
+    renderScore();
     modalScore.showModal();
+}
+
+function saveScore() {
+    const score = loadScore();
+    score.push({
+        moves: moves,
+        date: new Date().toLocaleDateString('ru-RU')
+    });
+    // сортировка по количеству ходов (меньше — лучше), затем по дате (раньше — лучше)
+    score.sort((a, b) => a.moves - b.moves || new Date(a.date) - new Date(b.date))
+    const top = score.slice(0, 10);
+    localStorage.setItem('MEMO_HIGH_SCORE', JSON.stringify(top));
+}
+
+function loadScore() {
+    try {
+        return JSON.parse(localStorage.getItem('MEMO_HIGH_SCORE')) || [];
+    } catch {
+        return [];
+    }
+}
+
+function renderScore() {
+    const score = loadScore();
+    const list = document.getElementById('list');
+    if (!list) return;
+    document.getElementById('score-message').textContent = '';
+    list.replaceChildren();
+    if (score.length === 0) {
+        document.getElementById('score-message').textContent = 'Пока нет результатов';
+        return;
+    }
+    for (let i = 0; i < score.length; i++) {
+        list.append(
+            el('li', {}, [`${score[i].moves} ходов — ${score[i].date}`])
+        );
+    }
 }
 
 modalWin.addEventListener('close', () => { if (modalWin.returnValue === 'new') startGame() });
