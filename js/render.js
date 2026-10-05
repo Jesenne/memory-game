@@ -82,7 +82,7 @@ function createBoard() {
 }
 
 function createModalScore() {
-    return el('dialog', { class: 'modal', id: 'modalScore' }, [
+    return el('dialog', { class: 'modal', id: 'modalScore', closedby: "any" }, [
         el('h2', { class: 'modal__title' }, ['Таблица лидеров']),
         el('ol', { class: 'modal__list', id: 'list' }),
         el('form', { method: 'dialog' }, [
@@ -92,7 +92,7 @@ function createModalScore() {
 }
 
 function createModalWin() {
-    return el('dialog', { class: 'modal', id: 'modalWin' }, [
+    return el('dialog', { class: 'modal', id: 'modalWin', closedby: "any" }, [
         el('h2', { class: 'modal__title' }, ['Победа!']),
         el('p', { class: 'modal__text', id: 'result' }),
         el('form', { class: 'modal__actions', method: 'dialog' }, [
