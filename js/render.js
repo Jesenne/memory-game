@@ -36,7 +36,7 @@ function createCard(painting) {
 
     return el('button', {
         class: 'card',
-        'data-t': painting.title,
+        'data-title': painting.title,
         'aria-label': 'Карточка',
         onclick: 'flip(this)'
     }, [
@@ -78,7 +78,7 @@ function createStats() {
 }
 
 function createBoard() {
-    return el('main', { class: 'board', id: 'board' }, createCardSet());
+    return el('main', { class: 'board', id: 'board' });
 }
 
 async function renderBody() {
@@ -94,7 +94,7 @@ async function renderBody() {
     document.body.append(el('script', { src: 'js/app.js' }));
 }
 
-function redrawBoard() {
+function dealCards() {
     document.getElementById('board').replaceChildren(...createCardSet());
 }
 
