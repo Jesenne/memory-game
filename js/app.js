@@ -41,11 +41,13 @@ function win() {
     document.getElementById('result').textContent = `Все пары найдены за ${moves} ходов`;
     modalWin.returnValue = '';
     modalWin.showModal();
+    document.body.style.overflow = 'hidden';
 }
 
 function highScore() {
     renderScore();
     modalScore.showModal();
+    document.body.style.overflow = 'hidden';
 }
 
 function saveScore() {
@@ -86,6 +88,8 @@ function renderScore() {
 }
 
 modalWin.addEventListener('close', () => { if (modalWin.returnValue === 'new') startGame() });
+modalWin.addEventListener('close', () => { document.body.style.overflow = ''; });
+modalScore.addEventListener('close', () => { document.body.style.overflow = ''; });
 document.getElementById('high-score').addEventListener('click', highScore);
 document.getElementById('new-game').addEventListener('click', startGame);
 
